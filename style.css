@@ -9,7 +9,9 @@ body {
 }
 
 .calculator {
-    border: 5px solid whitesmoke;
+    background-color: rgb(115, 115, 115);
+
+    border: 5px solid orange;
     border-radius: 10px;
     width: 400px;
     height: 660px;
@@ -18,6 +20,8 @@ body {
 }
 
 .display {
+    background-color: black;
+
     font-family: 'Seven Segment';
     font-size: 50px;
     color: orange;
@@ -26,7 +30,7 @@ body {
     justify-content: right;
     align-items: center;
 
-    border: 2px solid whitesmoke;
+    border: 2px solid orange;
     border-radius: 10px;
 
     width: 300px;
@@ -54,6 +58,7 @@ body {
     height: 50px;
     font-size: 20px;
     border-radius: 20px;
+    /* border: 1px solid orange; */
 }
 
 .numbers > div {

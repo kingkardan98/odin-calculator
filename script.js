@@ -146,6 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function operandListener(button) {
         let operandToAppend = button.textContent;
+        let operandsSymbolsListener = ['+', '-', '×', '*', '÷', '/'];
 
         // The visually pleasing 'times' and 'divides' symbol seriously fucks up calculations.
         if (operandToAppend === '×') {
@@ -159,9 +160,11 @@ document.addEventListener('DOMContentLoaded', () => {
         currentDisplayString = '';
 
         // If the second to last characther is already an operand, we just switch the operand.
-        let secondToLastChar = operationString.charAt(operationString.length - 2);
-        if (operandsSymbols.includes(secondToLastChar)) {
-            operationString[operationString.length - 2] = '';
+        let secondToLastIndex = operationString.length - 2;
+        let secondToLastChar = operationString.charAt(secondToLastIndex);
+        if (operandsSymbolsListener.includes(secondToLastChar)) {
+            // This takes the string, slices the first correct part, and then skips over the faulty operand, re-attaching the string up to the end.
+            operationString = operationString.slice(0, secondToLastIndex) + operationString.slice(secondToLastIndex + 1, operationString.length);
         }
     }
 

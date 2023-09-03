@@ -9,9 +9,9 @@ body {
 }
 
 .calculator {
-    background-color: rgb(115, 115, 115);
+    background-color: rgb(88, 88, 88);
 
-    border: 5px solid orange;
+    border: 5px solid rgb(194, 127, 2);
     border-radius: 10px;
     width: 400px;
     height: 660px;

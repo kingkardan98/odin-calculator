@@ -190,6 +190,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /* #region Keyboard support */
 
+    // REMINDER: clicking an element doesn't work on online deployments.
+    // It looks at programmatic clicks and sees them as unwanted. 
+    // Instead, calling a function makes it work flawlessly.
+
     document.addEventListener('keydown', (event) => {
         let key = event.key;
         switch(key){

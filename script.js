@@ -73,7 +73,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 numberButton.classList.add('number');
 
                 // We create the text inside the button. We initialize it with +1 so we skip zero for now.
-                numberButton.textContent = (3*i) + j + 1;
+                // We also set the id as 'buttonN' for later usage in keyboard support.
+                let buttonValue = (3*i) + j + 1;
+                numberButton.textContent = buttonValue;
+                numberButton.id = 'button' + buttonValue;
 
                 // We also create right now a listener.
                 numberButton.addEventListener('click', () => {
@@ -91,6 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let zeroButton = document.createElement('button');
         zeroButton.classList.add('number');
+        zeroButton.id = 'button0';
         zeroButton.textContent = 0;
         zeroButton.addEventListener('click', () => {
             currentDisplayString = appendDisplayString(currentDisplayString, zeroButton.textContent);
@@ -140,6 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function createOperandButtons() {
         let operandsSymbols = ['+', '-', '×', '÷'];
+        let operandsIds = ['addButton', 'subtractButton', 'multiplyButton', 'divideButton'];
         let operandsDiv = document.querySelector('.operands');
 
         for (let i = 0; i < 4; i++) {
@@ -148,6 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // ...and making content and class appropriate...
             operandButton.classList.add('operand');
+            operandButton.id = operandsIds[i];
             operandButton.textContent = operandsSymbols[i];
     
             // ...we can also create the listener already.
@@ -175,6 +181,64 @@ document.addEventListener('DOMContentLoaded', () => {
             operandsDiv.appendChild(operandButton);
         }
     }
+
+    /* #endregion */
+
+    /* #region Keyboard support */
+
+    document.addEventListener('keydown', (event) => {
+        let key = event.key;
+        switch(key){
+            case "0":
+                document.querySelector('#button0').click();
+                break;
+            case "1":
+                document.querySelector('#button1').click();
+                break;
+            case "2":
+                document.querySelector('#button2').click();
+                break;
+            case "3":
+                document.querySelector('#button3').click();
+                break;
+            case "4":
+                document.querySelector('#button4').click();
+                break;
+            case "5":
+                document.querySelector('#button5').click();
+                break;
+            case "6":
+                document.querySelector('#button6').click();
+                break;
+            case "7":
+                document.querySelector('#button7').click();
+                break;
+            case "8":
+                document.querySelector('#button8').click();
+                break;
+            case "9":
+                document.querySelector('#button1').click();
+                break;
+            case "Enter":
+                document.querySelector('#equals').click();
+                break;
+            case "Backspace":
+                document.querySelector('#cl').click();
+                break;
+            case "+":
+                document.querySelector('#addButton').click();
+                break;
+            case "-":
+                document.querySelector('#subtractButton').click();
+                break;
+            case '*':
+                document.querySelector('#multiplyButton').click();
+                break;
+            case '/':
+                document.querySelector('#divideButton').click();
+                break;
+        }
+    });
 
     /* #endregion */
 

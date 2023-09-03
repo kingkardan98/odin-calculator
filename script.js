@@ -58,6 +58,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /* #region Number buttons related functions */
 
+    function numberListener(numberToDisplay) {
+        currentDisplayString = appendDisplayString(currentDisplayString, numberToDisplay);
+        changeDisplay(currentDisplayString);
+    }
+
     function createNumberButtons() {
         // We create 3 rows of 3 elements each, then 1 row with '0' in it.
         let numbersBody = document.querySelector('.numbers');
@@ -79,10 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 numberButton.id = 'button' + buttonValue;
 
                 // We also create right now a listener.
-                numberButton.addEventListener('click', () => {
-                    currentDisplayString = appendDisplayString(currentDisplayString, numberButton.textContent);
-                    changeDisplay(currentDisplayString);
-                });
+                numberButton.addEventListener('click', () => {numberListener(numberButton.textContent);});
                 row.appendChild(numberButton);
             }
             numbersBody.appendChild(row);
@@ -142,6 +144,27 @@ document.addEventListener('DOMContentLoaded', () => {
         })
     }
 
+    function operandListener(button) {
+        let operandToAppend = button.textContent;
+
+        // The visually pleasing 'times' and 'divides' symbol seriously fucks up calculations.
+        if (operandToAppend === '×') {
+            operandToAppend = '*';
+        } else if (operandToAppend === '÷') {
+            operandToAppend = '/';
+        }
+
+        // This appends all of the inputs (numbers and operators alike) inside of operationString
+        operationString += currentDisplayString + operandToAppend;
+        currentDisplayString = '';
+
+        // If the second to last characther is already an operand, we just switch the operand.
+        let secondToLastChar = operationString.charAt(operationString.length - 2);
+        if (operandsSymbols.includes(secondToLastChar)) {
+            operationString[operationString.length - 2] = '';
+        }
+    }
+
     function createOperandButtons() {
         let operandsSymbols = ['+', '-', '×', '÷'];
         let operandsIds = ['addButton', 'subtractButton', 'multiplyButton', 'divideButton'];
@@ -157,26 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
             operandButton.textContent = operandsSymbols[i];
     
             // ...we can also create the listener already.
-            operandButton.addEventListener('click', () => {
-                let operandToAppend = operandButton.textContent;
-
-                // The visually pleasing 'times' and 'divides' symbol seriously fucks up calculations.
-                if (operandToAppend === '×') {
-                    operandToAppend = '*';
-                } else if (operandToAppend === '÷') {
-                    operandToAppend = '/';
-                }
-
-                // This appends all of the inputs (numbers and operators alike) inside of operationString
-                operationString += currentDisplayString + operandToAppend;
-                currentDisplayString = '';
-
-                // If the second to last characther is already an operand, we just switch the operand.
-                let secondToLastChar = operationString.charAt(operationString.length - 2);
-                if (operandsSymbols.includes(secondToLastChar)) {
-                    operationString[operationString.length - 2] = '';
-                }
-            })
+            operandButton.addEventListener('click', () => {operandListener(operandButton);})
 
             operandsDiv.appendChild(operandButton);
         }
@@ -190,52 +194,60 @@ document.addEventListener('DOMContentLoaded', () => {
         let key = event.key;
         switch(key){
             case "0":
-                document.querySelector('#button0').click();
+                numberListener(0);
                 break;
             case "1":
-                document.querySelector('#button1').click();
+                numberListener(1);
                 break;
             case "2":
-                document.querySelector('#button2').click();
+                numberListener(2);
                 break;
             case "3":
-                document.querySelector('#button3').click();
+                numberListener(3);
                 break;
             case "4":
-                document.querySelector('#button4').click();
+                numberListener(4);
                 break;
             case "5":
-                document.querySelector('#button5').click();
+                numberListener(5);
                 break;
             case "6":
-                document.querySelector('#button6').click();
+                numberListener(6);
                 break;
             case "7":
-                document.querySelector('#button7').click();
+                numberListener(7);
                 break;
             case "8":
-                document.querySelector('#button8').click();
+                numberListener(8);
                 break;
             case "9":
-                document.querySelector('#button1').click();
+                numberListener(9);
                 break;
             case "Enter":
-                document.querySelector('#equals').click();
+                // We just redo the equals listener.
+                operationString += currentDisplayString;
+                result = operate(operationString);
+                currentDisplayString = operationString = '';
+                changeDisplay(result);
                 break;
             case "Backspace":
-                document.querySelector('#cl').click();
+                currentDisplayString = eraseDisplay();
                 break;
             case "+":
-                document.querySelector('#addButton').click();
+                let plusButton = document.querySelector('#addButton');
+                operandListener(plusButton);
                 break;
             case "-":
-                document.querySelector('#subtractButton').click();
+                let subtractButton = document.querySelector('#subtractButton');
+                operandListener(subtractButton);
                 break;
             case '*':
-                document.querySelector('#multiplyButton').click();
+                let multiplyButton = document.querySelector('#multiplyButton');
+                operandListener(multiplyButton);
                 break;
             case '/':
-                document.querySelector('#divideButton').click();
+                let divideButton = document.querySelector('#divideButton');
+                operandListener(divideButton);
                 break;
         }
     });
